@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
+    private var validatedText: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,9 +27,16 @@ class MainActivity : AppCompatActivity() {
 
         val layoutPrincipal: ConstraintLayout = findViewById(R.id.LayoutPrincipal)
 
+        val buttonValidate = findViewById<Button>(R.id.button_validate)
+
         val editText: EditText = findViewById(R.id.editTextText)
 
         val buttonStart: Button = findViewById(R.id.button_start)
+
+        buttonValidate.setOnClickListener {
+            validatedText = editText.text.toString().trim()
+            Toast.makeText(this, "Texte validé : $validatedText", Toast.LENGTH_SHORT).show()
+        }
 
         buttonStart.setOnClickListener {
             val userInput = editText.text.toString().trim()
@@ -50,11 +58,9 @@ class MainActivity : AppCompatActivity() {
         val buttonNext = findViewById<Button>(R.id.button_next)
 
         buttonNext.setOnClickListener {
-            val userText = editText.text.toString().trim()
-
             val intent = Intent(this, MainActivity2::class.java)
 
-            intent.putExtra(EXTRA_TEXT, userText)
+            intent.putExtra(EXTRA_TEXT, validatedText)
 
             startActivity(intent)
         }
